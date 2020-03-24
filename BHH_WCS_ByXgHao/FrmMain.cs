@@ -161,7 +161,7 @@ namespace BHH_WCS_ByXgHao
         /// <param name="e"></param>
         private void Tsmi_Version_Click(object sender, EventArgs e)
         {
-
+            new FrmAbout().Show();
         }
 
         /// <summary>
