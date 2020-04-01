@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComResolution", "ComResolut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseData", "BaseData\BaseData.csproj", "{21133933-11FB-480F-BB39-219EBF1E85B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COMRW", "COMRW\COMRW.csproj", "{CDCAD39C-0611-48A6-9E6B-E838D977C958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bap.LibNodave", "Bap.LibNodave\Bap.LibNodave.csproj", "{6656DC1C-FFB6-4027-8BE0-14F9A9E04303}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{21133933-11FB-480F-BB39-219EBF1E85B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21133933-11FB-480F-BB39-219EBF1E85B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21133933-11FB-480F-BB39-219EBF1E85B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDCAD39C-0611-48A6-9E6B-E838D977C958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDCAD39C-0611-48A6-9E6B-E838D977C958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDCAD39C-0611-48A6-9E6B-E838D977C958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDCAD39C-0611-48A6-9E6B-E838D977C958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6656DC1C-FFB6-4027-8BE0-14F9A9E04303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6656DC1C-FFB6-4027-8BE0-14F9A9E04303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6656DC1C-FFB6-4027-8BE0-14F9A9E04303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6656DC1C-FFB6-4027-8BE0-14F9A9E04303}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
