@@ -38,7 +38,7 @@ namespace Bap.LibNodave
         }
     }
 
-    public class WirtePDU : PDU
+    public class WritePDU : PDU
     {
         [DllImport("libnodave.dll", EntryPoint = "DaveAddVarToWriteRequest")]
         private static extern void DaveAddVarToWriteRequest(IntPtr p, int area, int DBnum, int start, int bytes, byte[] buffer);
