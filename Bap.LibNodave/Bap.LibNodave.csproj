@@ -46,6 +46,7 @@
     <Compile Include="Interface\IPlcIO.cs" />
     <Compile Include="PDU.cs" />
     <Compile Include="PLCEnum.cs" />
+    <Compile Include="PlcTcpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -54,6 +55,7 @@
     </Compile>
     <Compile Include="PseudoPointer.cs" />
     <Compile Include="ResultSet.cs" />
+    <Compile Include="SocketClient.cs" />
     <Compile Include="Struct\FD.cs" />
   </ItemGroup>
   <ItemGroup>
