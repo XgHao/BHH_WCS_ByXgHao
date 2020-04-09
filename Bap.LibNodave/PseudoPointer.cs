@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System;   
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,12 +13,13 @@ namespace Bap.LibNodave
         private bool isDisposed;
         public IntPtr Pointer;
 
-        [DllImport("libnodave.dll")]
+
+        [DllImport("libnodave.dll",EntryPoint = "daveFree")]
         private static extern int DaveFree(IntPtr p);
 
         protected static int Free(IntPtr p)
         {
-            return (int)DaveFree(p);
+            return DaveFree(p);
         }
 
         public void Dispose()

@@ -11,7 +11,7 @@ namespace Bap.LibNodave
 {
     public class DaveInterface : PseudoPointer
     {
-        [DllImport("libnodave.dll")]
+        [DllImport("libnodave.dll", EntryPoint = "daveNewInterface")]
         private static extern IntPtr DaveNewInterface(
                 [MarshalAs(UnmanagedType.Struct)] FD fd,
                 [MarshalAs(UnmanagedType.LPWStr)] string name,
@@ -25,23 +25,23 @@ namespace Bap.LibNodave
             Pointer = DaveNewInterface(fd, name, localMPI, (int)useProto, (int)speed);
         }
 
-        [DllImport("libnodave.dll")]
+        [DllImport("libnodave.dll", EntryPoint = "daveInitAdapter")]
         private static extern int DaveInitAdapter(IntPtr di);
         public int InitAdapter()
         {
             return DaveInitAdapter(Pointer);
         }
 
-        [DllImport("libnodave.dll")]
+        [DllImport("libnodave.dll", EntryPoint = "daveListReachablePartners")]
         private static extern int DaveListReachablePartners(IntPtr di, byte[] buffer);
         public int ListReachablePartners(byte[] buffer)
         {
             return DaveListReachablePartners(Pointer, buffer);
         }
 
-        [DllImport("libnodave.dll")]
+        [DllImport("libnodave.dll", EntryPoint = "daveSetTimeout")]
         private static extern void DaveSetTimeout(IntPtr di, int time);
-        [DllImport("libnodave.dll")]
+        [DllImport("libnodave.dll", EntryPoint = "daveGetTimeout")]
         private static extern int DaveGetTimeout(IntPtr di);
         public int Timeout
         {
@@ -49,7 +49,7 @@ namespace Bap.LibNodave
             set { DaveSetTimeout(Pointer, value); }
         }
 
-        [DllImport("libnodave.dll")]
+        [DllImport("libnodave.dll", EntryPoint = "daveDisconnectAdapter")]
         private static extern IntPtr DaveDisconnectAdapter(IntPtr di);
         public IntPtr DisconnectAdapter()
         {

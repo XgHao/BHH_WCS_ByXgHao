@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,12 +50,30 @@ namespace Bap.LibNodave
                 return 0;
 
             IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(IpAddress), TcpPort);
-            timeoutSocket
+            TimeOutSocket timeOut = new TimeOutSocket();
+            cliSocket = timeOut.Connect(ipe, 300);
+            if (cliSocket != null) 
+            {
+                mFds.rfd=
+            }
         }
 
         public void DisConnectPLC()
         {
-            throw new NotImplementedException();
+            if (!IsConnected)
+                return;
+
+            if (mConn != null) 
+            {
+                mConn.DisconnectPLC();
+                mConn.Dispose();
+            }
+
+            if (mDI != null) 
+            {
+                mDI.Dispose();
+            }
+
         }
 
         public void Dispose()
@@ -64,202 +83,238 @@ namespace Bap.LibNodave
 
         public int ExecReadRequest(ReadPDU p, ResultSet rl)
         {
-            throw new NotImplementedException();
+            return mConn.ExecReadRequest(p, rl);
         }
 
         public int ExecWriteRequest(WritePDU p, ResultSet rl)
         {
-            throw new NotImplementedException();
+            return mConn.ExecWriteRequest(p, rl);
         }
 
         public int Force200(PLCEnum.PlcMemoryArea area, int start, int val)
         {
-            throw new NotImplementedException();
+            return mConn.Force200(area, start, val);
         }
 
         public int ForceDisconnectIBH(int src, int dest, int MPI)
         {
-            throw new NotImplementedException();
+            return mConn.ForceDisconnectIBH(src, dest, MPI);
         }
 
         public int GetAnswLen()
         {
-            throw new NotImplementedException();
+            return mConn.GetAnswLen();
         }
 
         public int GetCounterValue()
         {
-            throw new NotImplementedException();
+            return mConn.GetCounterValue();
         }
 
         public int GetCounterValueAt(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetCounterValueAt(pos);
         }
 
         public float GetFloat()
         {
-            throw new NotImplementedException();
+            return mConn.GetFloat();
         }
 
         public float GetFloatAt(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetFloatAt(pos);
         }
 
         public int GetMaxPDULen()
         {
-            throw new NotImplementedException();
+            return mConn.GetMaxPDULen();
         }
 
         public int GetProgramBlock(PLCEnum.S7BlockType blockType, int number, byte[] buffer, ref int length)
         {
-            throw new NotImplementedException();
+            return mConn.GetProgramBlock(blockType, number, buffer, ref length);
         }
 
         public int GetResponse()
         {
-            throw new NotImplementedException();
+            return mConn.GetResponse();
         }
 
+        /// <summary>
+        /// short
+        /// </summary>
+        /// <returns></returns>
         public short GetS16()
         {
-            throw new NotImplementedException();
+            return mConn.GetS16();
         }
 
         public short GetS16At(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetS16At(pos);
         }
 
+        /// <summary>
+        /// int
+        /// </summary>
+        /// <returns></returns>
         public int GetS32()
         {
-            throw new NotImplementedException();
+            return mConn.GetS32();
         }
 
         public int GetS32At(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetS32At(pos);
         }
 
+        /// <summary>
+        /// sbyte
+        /// </summary>
+        /// <returns></returns>
         public sbyte GetS8()
         {
-            throw new NotImplementedException();
+            return mConn.GetS8();
         }
 
         public sbyte GetS8At(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetS8At(pos);
         }
 
         public float GetSeconds()
         {
-            throw new NotImplementedException();
+            return mConn.GetSeconds();
         }
 
         public float GetSecondsAt(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetSecondsAt(pos);
         }
 
+        /// <summary>
+        /// ushort
+        /// </summary>
+        /// <returns></returns>
         public ushort GetU16()
         {
-            throw new NotImplementedException();
+            return mConn.GetU16();
         }
 
         public ushort GetU16At(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetU16At(pos);
         }
 
+        /// <summary>
+        /// uint
+        /// </summary>
+        /// <returns></returns>
         public uint GetU32()
         {
-            throw new NotImplementedException();
+            return mConn.GetU32();
         }
 
         public uint GetU32At(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetU32At(pos);
         }
 
+        /// <summary>
+        /// byte
+        /// </summary>
+        /// <returns></returns>
         public byte GetU8()
         {
-            throw new NotImplementedException();
+            return mConn.GetU8();
         }
 
         public byte GetU8At(int pos)
         {
-            throw new NotImplementedException();
+            return mConn.GetU8At(pos);
         }
 
         public int ListBlocksOfType(PLCEnum.S7BlockType blockType, byte[] buffer)
         {
-            throw new NotImplementedException();
+            return mConn.ListBlocksOfType(blockType, buffer);
         }
 
         public ReadPDU PrepareReadRequest()
         {
-            throw new NotImplementedException();
+            return mConn.PrepareReadRequest();
         }
 
         public WritePDU PrepareWriteRequest()
         {
-            throw new NotImplementedException();
+            return mConn.PrepareWriteRequest();
         }
 
         public int ReadBits(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            throw new NotImplementedException();
+            return mConn.ReadBits(area, DBnumber, start, len, buffer);
         }
 
         public int ReadBytes(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            throw new NotImplementedException();
+            return mConn.ReadBytes(area, DBnumber, start, len, buffer);
         }
 
         public int ReadManyBytes(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            throw new NotImplementedException();
+            lock (this)
+            {
+                return mConn.ReadManyBytes(area, DBnumber, start, len, buffer);
+            }
         }
 
         public int ReadSZL(int id, int index, byte[] ddd, int len)
         {
-            throw new NotImplementedException();
+            return mConn.ReadSZL(id, index, ddd, len);
         }
 
         public int SendMessage(PDU p)
         {
-            throw new NotImplementedException();
+            return mConn.SendMessage(p);
         }
 
         public int Start()
         {
-            throw new NotImplementedException();
+            return mConn.Start();
         }
 
         public int Stop()
         {
-            throw new NotImplementedException();
+            return mConn.Stop();
         }
 
         public int UseResult(ResultSet rs, int number)
         {
-            throw new NotImplementedException();
+            return mConn.UseResult(rs, number);
         }
 
         public int WriteBits(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            throw new NotImplementedException();
+            return mConn.WriteBits(area, DBnumber, start, len, buffer);
         }
 
         public int WriteBytes(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            throw new NotImplementedException();
+            return mConn.WriteBytes(area, DBnumber, start, len, buffer);
         }
 
         public int WriteManyBytes(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            throw new NotImplementedException();
+            lock (this)
+            {
+                return mConn.WriteManyBytes(area, DBnumber, start, len, buffer);
+            }
         }
+
+        [DllImport("libnodave.dll", EntryPoint = "closeSocket")]
+        private static extern int CloseSocket(int port);
+
+        [DllImport("libnodave.dll", EntryPoint = "openSocket")]
+        private static extern int OpenSocket(int port, [MarshalAs(UnmanagedType.LPWStr)]string ipAddress);
     }
 }

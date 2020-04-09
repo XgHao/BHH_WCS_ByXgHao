@@ -12,7 +12,7 @@ namespace Bap.LibNodave
     /// </summary>
     public class PDU : PseudoPointer
     {
-        [DllImport("libnodave.dll", EntryPoint = "DaveNewPDU")]
+        [DllImport("libnodave.dll", EntryPoint = "daveNewPDU")]
         private static extern IntPtr DaveNewPDU();
 
         public PDU()
@@ -23,14 +23,14 @@ namespace Bap.LibNodave
 
     public class ReadPDU : PDU
     {
-        [DllImport("libnodave.dll", EntryPoint = "DaveAddVarToReadRequest")]
+        [DllImport("libnodave.dll", EntryPoint = "daveAddVarToReadRequest")]
         private static extern void DaveAddVarToReadRequest(IntPtr p, int area, int DBnum, int start, int bytes);
         public void AddVarToReadRequest(PLCEnum.PlcMemoryArea area,int DBum,int start,int bytes)
         {
             DaveAddVarToReadRequest(Pointer, (int)area, DBum, start, bytes);
         }
 
-        [DllImport("libnodave.dll", EntryPoint = "DaveAddBitVarToReadRequest")]
+        [DllImport("libnodave.dll", EntryPoint = "daveAddBitVarToReadRequest")]
         private static extern void DaveAddBitVarToReadRequest(IntPtr p, int area, int DBnum, int start, int bytes);
         public void AddBitVarToReadRequest(PLCEnum.PlcMemoryArea area, int DBum, int start, int bytes)
         {
@@ -40,14 +40,14 @@ namespace Bap.LibNodave
 
     public class WritePDU : PDU
     {
-        [DllImport("libnodave.dll", EntryPoint = "DaveAddVarToWriteRequest")]
+        [DllImport("libnodave.dll", EntryPoint = "daveAddVarToWriteRequest")]
         private static extern void DaveAddVarToWriteRequest(IntPtr p, int area, int DBnum, int start, int bytes, byte[] buffer);
         public void AddVarToWriteRequest(PLCEnum.PlcMemoryArea area, int DBum, int start, int bytes, byte[] buffer)
         {
             DaveAddVarToWriteRequest(Pointer, (int)area, DBum, start, bytes, buffer);
         }
 
-        [DllImport("libnodave.dll", EntryPoint = "DaveAddBitVarToWriteRequest")]
+        [DllImport("libnodave.dll", EntryPoint = "daveAddBitVarToWriteRequest")]
         private static extern void DaveAddBitVarToWriteRequest(IntPtr p, int area, int DBnum, int start, int bytes, byte[] buffer);
         public void AddBitVarToWriteRequest(PLCEnum.PlcMemoryArea area, int DBum, int start, int bytes, byte[] buffer)
         {
