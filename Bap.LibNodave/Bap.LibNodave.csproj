@@ -44,7 +44,9 @@
     <Compile Include="DaveConnection.cs" />
     <Compile Include="DaveInterface.cs" />
     <Compile Include="Interface\IPlcIO.cs" />
+    <Compile Include="LibNodave.cs" />
     <Compile Include="PDU.cs" />
+    <Compile Include="PlcDataHelper.cs" />
     <Compile Include="PLCEnum.cs" />
     <Compile Include="PlcTcpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

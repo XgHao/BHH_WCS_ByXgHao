@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Bap.LibNodave
 {
-    public static class PLCEnum{
-        
+    public static class PLCEnum
+    {
+
         /// <summary>
         /// 定义的PLC的内存区域，对于simens，是这样定义的
         /// I:离散输入和映像寄存器
@@ -194,6 +195,64 @@ namespace Bap.LibNodave
             Speed1500k = 4,
             Speed45k = 5,
             Speed93k = 6
+        }
+
+        public enum DebugLevel
+        {
+            /// <summary>
+            /// show the single byte received
+            /// 显示接受的单字节
+            /// </summary>
+            RawRead = 0x01,
+            /// <summary>
+            /// show when special chars are read
+            /// 显示当读取特殊字符时
+            /// </summary>
+            SpecialChars = 0x02,
+            /// <summary>
+            /// show the single bytes written
+            /// 显示写入的单字节
+            /// </summary>
+            RawWrite = 0x04,
+            /// <summary>
+            /// show the steps when determine devices in MPI net
+            /// 显示在MPI网络中确定设备时的步骤
+            /// </summary>
+            ListReachables = 0x88,
+            /// <summary>
+            /// show the steps when Initilizing the MPI adapter
+            /// 显示初始化MPI适配器时的步骤
+            /// </summary>
+            InitAdapter = 0x10,
+            /// <summary>
+            /// show the steps when connecting a PLC
+            /// 显示连接PLC时的步骤
+            /// </summary>
+            Connect = 0x20,
+            Packet = 0x40,
+            Byte = 0x80,
+            Compare = 0x100,
+            Exchange = 0x200,
+            /// <summary>
+            /// debug PDU handling
+            /// 调式PDU操作
+            /// </summary>
+            PDU = 0x400,
+            /// <summary>
+            /// debug PDU loading program blocks from PLC
+            /// 调试从PLC加载程序块的PDU
+            /// </summary>
+            Upload = 0x800,
+            MPI = 0x1000,
+            /// <summary>
+            /// Print error message
+            /// 打印错误消息
+            /// </summary>
+            PrintErrors = 0x2000,
+            Passive = 0x4000,
+            ErrorReporting = 0x8000,
+            Open = 0x10000,
+            All = 0x1ffff
         }
     }
 }

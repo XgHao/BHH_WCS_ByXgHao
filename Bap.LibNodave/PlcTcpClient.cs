@@ -18,6 +18,8 @@ namespace Bap.LibNodave
         private DaveConnection mConn = null;
         private Socket cliSocket;
 
+        bool disposed = false;
+
         public string IpAddress { get; private set; }
 
         public bool IsConnected { get; private set; }
@@ -54,8 +56,26 @@ namespace Bap.LibNodave
             cliSocket = timeOut.Connect(ipe, 300);
             if (cliSocket != null) 
             {
-                mFds.rfd=
+                mFds.rfd = OpenSocket(TcpPort, IpAddress);
+                if (mFds.rfd <= 0)
+                {
+                    //FD一般是不可能为0的，0、1、2、3、4等估计早被操作系统或者其他程序占用了
+                    return mFds.rfd;
+                }
+
+                mFds.wfd = mFds.rfd;
+                mDI = new DaveInterface(mFds, "PLC_1", 0, PLCEnum.Protocols.ISOTCP, PLCEnum.ProfiBusSpeed.Speed187k);
+                mDI.Timeout = 1;
+                mConn = new DaveConnection(mDI, 0, PlcRack, PlcSlot);
+                int rc = mConn.ConnectPL();
+                if (rc == 0)
+                {
+                    IsConnected = true;
+                    return rc;
+                }
+                return rc;
             }
+            return -1;
         }
 
         public void DisConnectPLC()
@@ -74,11 +94,36 @@ namespace Bap.LibNodave
                 mDI.Dispose();
             }
 
+            CloseSocket(mFds.rfd);
+            mConn = null;
+            mDI = null;
+            IsConnected = false;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                DisConnectPLC();
+            }
+
+            disposed = true;
+        }
+
+        ~PlcTcpClient()
+        {
+            Dispose(false);
         }
 
         public int ExecReadRequest(ReadPDU p, ResultSet rl)
