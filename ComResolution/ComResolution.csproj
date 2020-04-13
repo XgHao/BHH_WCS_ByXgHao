@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LOG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\LOG.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,14 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CraneStr.cs" />
+    <Compile Include="CRCObject.cs" />
+    <Compile Include="CRCSCKObject.cs" />
     <Compile Include="CRLBase.cs" />
+    <Compile Include="CRLCRANEConnect.cs" />
+    <Compile Include="CRLSocket.cs" />
     <Compile Include="CRLTRANSControl.cs" />
+    <Compile Include="ProductCountInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseData\BaseData.csproj">
       <Project>{21133933-11FB-480F-BB39-219EBF1E85B5}</Project>
       <Name>BaseData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\COMRW\COMRW.csproj">
+      <Project>{cdcad39c-0611-48a6-9e6b-e838d977c958}</Project>
+      <Name>COMRW</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataOperate\DataOperate.csproj">
+      <Project>{2c12d482-752a-4ed4-abe0-a3d50a3a18be}</Project>
+      <Name>DataOperate</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

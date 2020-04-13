@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\API.cs" />
     <Compile Include="Common\Const.cs" />
     <Compile Include="Common\SystemApplication.cs" />
     <Compile Include="FrmAbout.cs">
@@ -64,6 +65,12 @@
     </Compile>
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSRMEquip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSRMEquip.Designer.cs">
+      <DependentUpon>FrmSRMEquip.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmTransportEquip.cs">
       <SubType>Form</SubType>

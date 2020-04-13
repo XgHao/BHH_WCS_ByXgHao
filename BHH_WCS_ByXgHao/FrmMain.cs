@@ -52,17 +52,6 @@ namespace BHH_WCS_ByXgHao
             base.WndProc(ref m);
         }
 
-        #region [ API : 记事本 ]
-
-
-        [DllImport("User32.dll", CharSet = CharSet.Unicode)]
-        private static extern int SendMessage(IntPtr hWnd, uint Msg, int wParam, string lParam);
-
-        [DllImport("User32.dll", CharSet = CharSet.Unicode)]
-        private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
-
-        #endregion
-
         /// <summary>
         /// 系统--重启
         /// </summary>
@@ -128,10 +117,10 @@ namespace BHH_WCS_ByXgHao
             {
                 proNotepad.Refresh();
             }
-            IntPtr vHandle = FindWindowEx(proNotepad.MainWindowHandle, IntPtr.Zero, "Edit", null);
+            IntPtr vHandle = API.FindWindowEx(proNotepad.MainWindowHandle, IntPtr.Zero, "Edit", null);
 
             //传递数据给记事本
-            SendMessage(vHandle, Const.WM_SETTEXT, 0, "");
+            API.SendMessage(vHandle, Const.WM_SETTEXT, 0, "");
         }
 
         /// <summary>
@@ -171,7 +160,7 @@ namespace BHH_WCS_ByXgHao
         /// <param name="e"></param>
         private void NotifyWCS_DoubleClick(object sender, EventArgs e)
         {
-
+            ShowCtiServer();
         }
 
         /// <summary>
@@ -200,6 +189,14 @@ namespace BHH_WCS_ByXgHao
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Tsmi_Hide_Click(object sender, EventArgs e)
+        {
+            HideCtiServer();
+        }
+
+        /// <summary>
+        /// 隐藏客户端服务
+        /// </summary>
+        private void HideCtiServer()
         {
             Hide();
         }
@@ -245,10 +242,12 @@ namespace BHH_WCS_ByXgHao
                         switch (i)
                         {
                             case 0:
-
+                                FrmTransportEquip frmTse = new FrmTransportEquip();
+                                TabControl1.TabPages.Add(frmTse);
+                                TabControl1.TabPages[frmTse].CloseButtonVisible = false;
+                                TabControl1.TabPages.set_IndexOf(TabControl1.TabPages[frmTse], ++index);
                                 break;
                             case 1:
-
                                 break;
                             case 2:
 

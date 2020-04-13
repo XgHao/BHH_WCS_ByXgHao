@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API.cs" />
     <Compile Include="DaveConnection.cs" />
     <Compile Include="DaveInterface.cs" />
     <Compile Include="Interface\IPlcIO.cs" />

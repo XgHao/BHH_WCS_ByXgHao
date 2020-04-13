@@ -12,18 +12,23 @@ namespace BHH_WCS_ByXgHao.Common
     /// </summary>
     public static class Const
     {
-        public static int WM_SYSCOMMAND { get; } = 0X112;
+        public const int WM_SYSCOMMAND  = 0X112;
 
-        public static int SC_MINIMIZE { get; } = 0XF020;
+        public const int SC_MINIMIZE = 0XF020;
 
-        public static int SC_CLOSE { get; } = 0XF060;
+        public const int SC_CLOSE = 0XF060;
 
-        public static int SC_RESTORE { get; } = 0XF120;
+        public const int SC_RESTORE  = 0XF120;
 
         /// <summary>
         /// 记事本需要的常量
         /// </summary>
-        public static uint WM_SETTEXT { get; } = 0X000C;
+        public const uint WM_SETTEXT  = 0X000C;
+
+        /// <summary>
+        /// 自动关闭弹出框需要的常量
+        /// </summary>
+        public const int WM_CLOSE = 0x10;
 
         public static string MainName
         {
@@ -35,7 +40,8 @@ namespace BHH_WCS_ByXgHao.Common
                 }
                 catch (ConfigurationErrorsException)
                 {
-                    return "MainName";
+                    return $"Can't find [{nameof(MainName)}]";
+                    
                 }
             }
         }
@@ -44,7 +50,14 @@ namespace BHH_WCS_ByXgHao.Common
         {
             get
             {
-                return ConfigurationManager.AppSettings["FormStatus"];
+                try
+                {
+                    return ConfigurationManager.AppSettings["FormStatus"];
+                }
+                catch (ConfigurationErrorsException)
+                {
+                    return $"Can't find [{nameof(FormStatus)}]";
+                }
             }
         }
     }

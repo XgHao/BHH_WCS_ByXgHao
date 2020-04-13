@@ -1,5 +1,4 @@
 ﻿using Bap.LibNodave.Properties;
-using Bap.LibNodave.Struct;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,56 +10,35 @@ namespace Bap.LibNodave
 {
     public class DaveInterface : PseudoPointer
     {
-        [DllImport("libnodave.dll", EntryPoint = "daveNewInterface")]
-        private static extern IntPtr DaveNewInterface(
-                [MarshalAs(UnmanagedType.Struct)] FD fd,
-                [MarshalAs(UnmanagedType.LPWStr)] string name,
-                int localMPI,
-                int useProto,
-                int speed
-            );
-
         public DaveInterface(FD fd, string name, int localMPI, PLCEnum.Protocols useProto, PLCEnum.ProfiBusSpeed speed)
         {
-            Pointer = DaveNewInterface(fd, name, localMPI, (int)useProto, (int)speed);
+            Pointer = API.DaveNewInterface(fd, name, localMPI, (int)useProto, (int)speed);
         }
 
-        [DllImport("libnodave.dll", EntryPoint = "daveInitAdapter")]
-        private static extern int DaveInitAdapter(IntPtr di);
         public int InitAdapter()
         {
-            return DaveInitAdapter(Pointer);
+            return API.DaveInitAdapter(Pointer);
         }
 
-        [DllImport("libnodave.dll", EntryPoint = "daveListReachablePartners")]
-        private static extern int DaveListReachablePartners(IntPtr di, byte[] buffer);
         public int ListReachablePartners(byte[] buffer)
         {
-            return DaveListReachablePartners(Pointer, buffer);
+            return API.DaveListReachablePartners(Pointer, buffer);
         }
 
-        [DllImport("libnodave.dll", EntryPoint = "daveSetTimeout")]
-        private static extern void DaveSetTimeout(IntPtr di, int time);
-        [DllImport("libnodave.dll", EntryPoint = "daveGetTimeout")]
-        private static extern int DaveGetTimeout(IntPtr di);
         public int Timeout
         {
-            get { return DaveGetTimeout(Pointer); }
-            set { DaveSetTimeout(Pointer, value); }
+            get { return API.DaveGetTimeout(Pointer); }
+            set { API.DaveSetTimeout(Pointer, value); }
         }
 
-        [DllImport("libnodave.dll", EntryPoint = "daveDisconnectAdapter")]
-        private static extern IntPtr DaveDisconnectAdapter(IntPtr di);
         public IntPtr DisconnectAdapter()
         {
-            return DaveDisconnectAdapter(Pointer);
+            return API.DaveDisconnectAdapter(Pointer);
         }
 
-        [DllImport("libnodave.dll", CharSet = CharSet.Unicode)]
-        private static extern string DaveGetName(IntPtr di);
         public string Name
         {
-            get { return DaveGetName(Pointer); }
+            get { return API.DaveGetName(Pointer); }
         }
     }
 }

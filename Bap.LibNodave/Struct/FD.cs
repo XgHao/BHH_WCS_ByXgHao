@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bap.LibNodave.Struct
+namespace Bap.LibNodave
 {
     /// <summary>
     /// file descriptor，在Unix/Linux系统下，一个socket句柄，可以看做一个文件，在socket上收发数据，相当于对一个文件进行读写

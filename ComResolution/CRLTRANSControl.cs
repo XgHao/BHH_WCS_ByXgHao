@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComResolution
 {
-    public class CRLTRANSControl
+    public class CRLTRANSControl : CRLBase
     {
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Bap.LibNodave.Interface;
-using Bap.LibNodave.Struct;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +55,7 @@ namespace Bap.LibNodave
             cliSocket = timeOut.Connect(ipe, 300);
             if (cliSocket != null) 
             {
-                mFds.rfd = OpenSocket(TcpPort, IpAddress);
+                mFds.rfd = API.OpenSocket(TcpPort, IpAddress);
                 if (mFds.rfd <= 0)
                 {
                     //FD一般是不可能为0的，0、1、2、3、4等估计早被操作系统或者其他程序占用了
@@ -94,7 +93,7 @@ namespace Bap.LibNodave
                 mDI.Dispose();
             }
 
-            CloseSocket(mFds.rfd);
+            API.CloseSocket(mFds.rfd);
             mConn = null;
             mDI = null;
             IsConnected = false;
@@ -356,10 +355,5 @@ namespace Bap.LibNodave
             }
         }
 
-        [DllImport("libnodave.dll", EntryPoint = "closeSocket")]
-        private static extern int CloseSocket(int port);
-
-        [DllImport("libnodave.dll", EntryPoint = "openSocket")]
-        private static extern int OpenSocket(int port, [MarshalAs(UnmanagedType.LPWStr)]string ipAddress);
     }
 }

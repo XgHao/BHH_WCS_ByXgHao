@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL
+namespace ComResolution
 {
-    internal class BLLBase
+    public class CRLSocket : CRLBase
     {
-
     }
 }

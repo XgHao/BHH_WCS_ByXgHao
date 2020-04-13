@@ -13,13 +13,9 @@ namespace Bap.LibNodave
         private bool isDisposed;
         public IntPtr Pointer;
 
-
-        [DllImport("libnodave.dll",EntryPoint = "daveFree")]
-        private static extern int DaveFree(IntPtr p);
-
         protected static int Free(IntPtr p)
         {
-            return DaveFree(p);
+            return API.DaveFree(p);
         }
 
         public void Dispose()

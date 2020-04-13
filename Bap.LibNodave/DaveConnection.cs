@@ -9,312 +9,226 @@ namespace Bap.LibNodave
 {
     public class DaveConnection : PseudoPointer
     {
-        [DllImport("libnodave.dll",EntryPoint = "daveNewConnection")]
-        private static extern IntPtr DaveNewConnection(IntPtr di, int MPI, int rack, int slot);
         public DaveConnection(DaveInterface di, int MPI, int rack, int slot)
         {
-            Pointer = DaveNewConnection(di.Pointer, MPI, rack, slot);
+            Pointer = API.DaveNewConnection(di.Pointer, MPI, rack, slot);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveConnectPLC")]
-        private static extern int DaveConnectPLC(IntPtr dc);
         public int ConnectPL()
         {
-            return DaveConnectPLC(Pointer);
+            return API.DaveConnectPLC(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveDisconnectPLC")]
-        private static extern int DaveDisconnectPLC(IntPtr dc);
         public int DisconnectPLC()
         {
-            return DaveDisconnectPLC(Pointer);
+            return API.DaveDisconnectPLC(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveReadBytes")]
-        private static extern int DaveReadBytes(IntPtr dc, int area, int DBnumber, int start, int len, byte[] buffer);
         public int ReadBytes(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            return DaveReadBytes(Pointer, (int)area, DBnumber, start, len, buffer);
+            return API.DaveReadBytes(Pointer, (int)area, DBnumber, start, len, buffer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveReadManyBytes")]
-        private static extern int DaveReadManyBytes(IntPtr dc, int area, int DBnumber, int start, int len, byte[] buffer);
         public int ReadManyBytes(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            return DaveReadManyBytes(Pointer, (int)area, DBnumber, start, len, buffer);
+            return API.DaveReadManyBytes(Pointer, (int)area, DBnumber, start, len, buffer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveReadBits")]
-        private static extern int DaveReadBits(IntPtr dc, int area, int DBnumber, int start, int len, byte[] buffer);
         public int ReadBits(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            return DaveReadBits(Pointer, (int)area, DBnumber, start, len, buffer);
+            return API.DaveReadBits(Pointer, (int)area, DBnumber, start, len, buffer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveWriteBytes")]
-        private static extern int DaveWriteBytes(IntPtr dc, int area, int DBnumber, int start, int len, byte[] buffer);
         public int WriteBytes(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            return DaveWriteBytes(Pointer, (int)area, DBnumber, start, len, buffer);
+            return API.DaveWriteBytes(Pointer, (int)area, DBnumber, start, len, buffer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveWriteManyBytes")]
-        private static extern int DaveWriteManyBytes(IntPtr dc, int area, int DBnumber, int start, int len, byte[] buffer);
         public int WriteManyBytes(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            return DaveWriteManyBytes(Pointer, (int)area, DBnumber, start, len, buffer);
+            return API.DaveWriteManyBytes(Pointer, (int)area, DBnumber, start, len, buffer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveWriteBits")]
-        private static extern int DaveWriteBits(IntPtr dc, int area, int DBnumber, int start, int len, byte[] buffer);
         public int WriteBits(PLCEnum.PlcMemoryArea area, int DBnumber, int start, int len, byte[] buffer)
         {
-            return DaveWriteBits(Pointer, (int)area, DBnumber, start, len, buffer);
+            return API.DaveWriteBits(Pointer, (int)area, DBnumber, start, len, buffer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetS32")]
-        private static extern int DaveGetS32(IntPtr dc);
         public int GetS32()
         {
-            return DaveGetS32(Pointer);
+            return API.DaveGetS32(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetU32")]
-        private static extern uint DaveGetU32(IntPtr dc);
         public uint GetU32()
         {
-            return DaveGetU32(Pointer);
+            return API.DaveGetU32(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetS16")]
-        private static extern short DaveGetS16(IntPtr dc);
         public short GetS16()
         {
-            return DaveGetS16(Pointer);
+            return API.DaveGetS16(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetU16")]
-        private static extern ushort DaveGetU16(IntPtr dc);
         public ushort GetU16()
         {
-            return DaveGetU16(Pointer);
+            return API.DaveGetU16(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetS8")]
-        private static extern sbyte DaveGetS8(IntPtr dc);
         public sbyte GetS8()
         {
-            return DaveGetS8(Pointer);
+            return API.DaveGetS8(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetU8")]
-        private static extern byte DaveGetU8(IntPtr dc);
         public byte GetU8()
         {
-            return DaveGetU8(Pointer);
+            return API.DaveGetU8(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetFloat")]
-        private static extern float DaveGetFloat(IntPtr dc);
         public float GetFloat()
         {
-            return DaveGetFloat(Pointer);
+            return API.DaveGetFloat(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetCounterValue")]
-        private static extern int DaveGetCounterValue(IntPtr dc);
         public int GetCounterValue()
         {
-            return DaveGetCounterValue(Pointer);
+            return API.DaveGetCounterValue(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetSeconds")]
-        private static extern float DaveGetSeconds(IntPtr dc);
         public float GetSeconds()
         {
-            return DaveGetSeconds(Pointer);
+            return API.DaveGetSeconds(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetS32At")]
-        private static extern int DaveGetS32At(IntPtr dc, int pos);
         public int GetS32At(int pos)
         {
-            return DaveGetS32At(Pointer, pos);
+            return API.DaveGetS32At(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetU32At")]
-        private static extern uint DaveGetU32At(IntPtr dc, int pos);
         public uint GetU32At(int pos)
         {
-            return DaveGetU32At(Pointer, pos);
+            return API.DaveGetU32At(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetS16At")]
-        private static extern short DaveGetS16At(IntPtr dc, int pos);
         public short GetS16At(int pos)
         {
-            return DaveGetS16At(Pointer, pos);
+            return API.DaveGetS16At(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetU16At")]
-        private static extern ushort DaveGetU16At(IntPtr dc, int pos);
         public ushort GetU16At(int pos)
         {
-            return DaveGetU16At(Pointer, pos);
+            return API.DaveGetU16At(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetS8At")]
-        private static extern sbyte DaveGetS8At(IntPtr dc, int pos);
         public sbyte GetS8At(int pos)
         {
-            return DaveGetS8At(Pointer, pos);
+            return API.DaveGetS8At(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetU8At")]
-        private static extern byte DaveGetU8At(IntPtr dc, int pos);
         public byte GetU8At(int pos)
         {
-            return DaveGetU8At(Pointer, pos);
+            return API.DaveGetU8At(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetFloatAt")]
-        private static extern float DaveGetFloatAt(IntPtr dc, int pos);
         public float GetFloatAt(int pos)
         {
-            return DaveGetFloatAt(Pointer, pos);
+            return API.DaveGetFloatAt(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetCounterValueAt")]
-        private static extern int DaveGetCounterValueAt(IntPtr dc, int pos);
         public int GetCounterValueAt(int pos)
         {
-            return DaveGetCounterValueAt(Pointer, pos);
+            return API.DaveGetCounterValueAt(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetSecondsAt")]
-        private static extern float DaveGetSecondsAt(IntPtr dc, int pos);
         public float GetSecondsAt(int pos)
         {
-            return DaveGetSecondsAt(Pointer, pos);
+            return API.DaveGetSecondsAt(Pointer, pos);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetAnswLen")]
-        private static extern int DaveGetAnswLen(IntPtr dc);
         public int GetAnswLen()
         {
-            return DaveGetAnswLen(Pointer);
+            return API.DaveGetAnswLen(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetMaxPDULen")]
-        private static extern int DaveGetMaxPDULen(IntPtr dc);
         public int GetMaxPDULen()
         {
-            return DaveGetMaxPDULen(Pointer);
+            return API.DaveGetMaxPDULen(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "davePrepareReadRequest")]
-        private static extern int DavePrepareReadRequest(IntPtr dc, IntPtr p);
         public ReadPDU PrepareReadRequest()
         {
             ReadPDU p = new ReadPDU();
-            DavePrepareReadRequest(Pointer, p.Pointer);
+            API.DavePrepareReadRequest(Pointer, p.Pointer);
             return p;
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "davePrepareWriteRequest")]
-        private static extern int DavePrepareWriteRequest(IntPtr dc, IntPtr p);
         public WritePDU PrepareWriteRequest()
         {
             WritePDU p = new WritePDU();
-            DavePrepareWriteRequest(Pointer, p.Pointer);
+            API.DavePrepareWriteRequest(Pointer, p.Pointer);
             return p;
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveExecReadRequest")]
-        private static extern int DaveExecReadRequest(IntPtr dc, IntPtr p, IntPtr rl);
         public int ExecReadRequest(ReadPDU p, ResultSet rl)
         {
-            return DaveExecReadRequest(Pointer, p.Pointer, rl.Pointer);
+            return API.DaveExecReadRequest(Pointer, p.Pointer, rl.Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveExecWriteRequest")]
-        private static extern int DaveExecWriteRequest(IntPtr dc, IntPtr p, IntPtr rl);
         public int ExecWriteRequest(WritePDU p, ResultSet rl)
         {
-            return DaveExecWriteRequest(Pointer, p.Pointer, rl.Pointer);
+            return API.DaveExecWriteRequest(Pointer, p.Pointer, rl.Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveUseResult")]
-        private static extern int DaveUseResult(IntPtr dc, IntPtr rs, int number);
         public int UseResult(ResultSet rs, int number)
         {
-            return DaveUseResult(Pointer, rs.Pointer, number);
+            return API.DaveUseResult(Pointer, rs.Pointer, number);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveReadSZL")]
-        private static extern int DaveReadSZL(IntPtr dc, int id, int index, byte[] ddd, int len);
         public int ReadSZL(int id, int index, byte[] ddd, int len)
         {
-            return DaveReadSZL(Pointer, id, index, ddd, len);
+            return API.DaveReadSZL(Pointer, id, index, ddd, len);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveStart")]
-        private static extern int DaveStart(IntPtr dc);
         public int Start()
         {
-            return DaveStart(Pointer);
+            return API.DaveStart(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveStop")]
-        private static extern int DaveStop(IntPtr dc);
         public int Stop()
         {
-            return DaveStop(Pointer);
+            return API.DaveStop(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveForce200")]
-        private static extern int DaveForce200(IntPtr dc, int area, int start, int val);
         public int Force200(PLCEnum.PlcMemoryArea area, int start, int val)
         {
-            return DaveForce200(Pointer, (int)area, start, val);
+            return API.DaveForce200(Pointer, (int)area, start, val);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveForceDisconnectIBH")]
-        private static extern int DaveForceDisconnectIBH(IntPtr dc, int src, int dest, int MPI);
         public int ForceDisconnectIBH(int src, int dest, int MPI)
         {
-            return DaveForceDisconnectIBH(Pointer, src, dest, MPI);
+            return API.DaveForceDisconnectIBH(Pointer, src, dest, MPI);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetResponse")]
-        private static extern int DaveGetResponse(IntPtr dc);
         public int GetResponse()
         {
-            return DaveGetResponse(Pointer);
+            return API.DaveGetResponse(Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveSendMessage")]
-        private static extern int DaveSendMessage(IntPtr dc, IntPtr p);
         public int SendMessage(PDU p)
         {
-            return DaveSendMessage(Pointer, p.Pointer);
+            return API.DaveSendMessage(Pointer, p.Pointer);
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveGetProgramBlock")]
-        private static extern int DaveGetProgramBlock(IntPtr dc, int blockType, int number, byte[] buffer, ref int length);
         public int GetProgramBlock(PLCEnum.S7BlockType blockType, int number, byte[] buffer, ref int length)
         {
             Console.WriteLine("length:" + length);
-            int a = DaveGetProgramBlock(Pointer, (int)blockType, number, buffer, ref length);
+            int a = API.DaveGetProgramBlock(Pointer, (int)blockType, number, buffer, ref length);
             Console.WriteLine("length:" + length);
             return a;
         }
 
-        [DllImport("libnodave.dll",EntryPoint = "daveListBlocksOfType")]
-        private static extern int DaveListBlocksOfType(IntPtr dc, int blockType, byte[] buffer);
         public int ListBlocksOfType(PLCEnum.S7BlockType blockType, byte[] buffer)
         {
-            return DaveListBlocksOfType(Pointer, (int)blockType, buffer);
+            return API.DaveListBlocksOfType(Pointer, (int)blockType, buffer);
         }
     }
 }
