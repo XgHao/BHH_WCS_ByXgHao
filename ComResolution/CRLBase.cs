@@ -38,7 +38,7 @@ namespace ComResolution
         /// <summary>
         /// 通讯线程
         /// </summary>
-        public Thread ComThread;
+        public Task ComTask;
 
         /// <summary>
         /// 堆垛机实体类List

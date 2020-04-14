@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21133933-11FB-480F-BB39-219EBF1E85B5}</ProjectGuid>
+    <ProjectGuid>{16CD8A76-0D04-4C1E-A7DA-05AF3D7969EE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BaseData</RootNamespace>
-    <AssemblyName>BaseData</AssemblyName>
+    <RootNamespace>TimeSpanCount</RootNamespace>
+    <AssemblyName>TimeSpanCount</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,10 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlleyIdRelation.cs" />
-    <Compile Include="CraneStr.cs" />
-    <Compile Include="SSJAlarm.cs" />
-    <Compile Include="TransportStr.cs" />
+    <Compile Include="PerformanceTimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

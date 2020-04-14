@@ -36,6 +36,7 @@
       <HintPath>bin\Debug\LOG.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CraneStr.cs" />
     <Compile Include="CRCObject.cs" />
     <Compile Include="CRCSCKObject.cs" />
     <Compile Include="CRLBase.cs" />
@@ -67,6 +67,14 @@
     <ProjectReference Include="..\DataOperate\DataOperate.csproj">
       <Project>{2c12d482-752a-4ed4-abe0-a3d50a3a18be}</Project>
       <Name>DataOperate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LedDisplay\LedDisplay.csproj">
+      <Project>{0ECAFAC5-16C4-4E44-B759-405682199EB7}</Project>
+      <Name>LedDisplay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TimeSpanCount\TimeSpanCount.csproj">
+      <Project>{16CD8A76-0D04-4C1E-A7DA-05AF3D7969EE}</Project>
+      <Name>TimeSpanCount</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

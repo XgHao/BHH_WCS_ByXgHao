@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComResolution
+namespace BaseData
 {
     /// <summary>
     /// 堆垛机类
