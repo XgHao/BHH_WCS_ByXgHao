@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HsControlServer.cs" />
+    <Compile Include="Leddll.cs" />
     <Compile Include="RWLOPCServerl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
