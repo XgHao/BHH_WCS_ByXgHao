@@ -10,6 +10,8 @@ using COMRW;
 using System.Data;
 using BaseData;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 
 namespace ComResolution
 {
@@ -348,11 +350,70 @@ namespace ComResolution
                         {
                             return;
                         }
-                        crl
+                        crl.HsWcsReadSSJ(ref ts);
+                        if (ts.KXBZ != "1") 
+                        {
+                            return;
+                        }
+                        //查询调度任务，
+                        //任务类型2（TASKTYPE出库），任务类型描述（DESCRIPTION），状态为2（STATUS待执行）
+                        string alleyid = AlleyIdRelation.GetAlleyId(cs.Btid);
+                        //查询出库调度任务
+                        //任务类型为2（TASKTYPE出库），层号（FLOOR）为1，状态为2（STATUS待执行）
+                        DataSet dstask = DataTrans.D_GetOutSchTaskByCrane("2", "1", "2", alleyid, string.Empty, cs);
+                        if (dstask != null && dstask.Tables[0].Rows.Count > 0) 
+                        {
+                            dt = dstask.Tables[0].Clone();
+                            dt.ImportRow(dstask.Tables[0].Rows[0]);
+                            bool flag1 = true;
+                            //调度指令表中任务号不存在，分配新的任务号
+                            if (dt.Rows[0]["task"].ToString() == "0" || string.IsNullOrEmpty(dt.Rows[0]["taskno"].ToString())) 
+                            {
+                                //任务号分配
+                                string taskno = DataTrans.D_AllotTaskno().ToString();
+                                if (!string.IsNullOrEmpty(taskno) && taskno != "0")
+                                {
+                                    dt.Rows[0]["taskno"] = taskno;
+                                    flag1 = DataTrans.D_UpSchTask(taskno, dt.Rows[0]["taskid"].ToString());
+                                }
+                                else
+                                {
+                                    flag1 = false;
+                                }
+                            }
+                            if (flag1)
+                            {
+                                LogWrite.WriteLog($"巷道{cs.Btid}开始一楼出库任务，任务号为{dt.Rows[0]["taskno"]}托盘条码：{dt.Rows[0]["traycode"]}");
+                                NotifyShowEvent?.Invoke("R", $"巷道{cs.Btid}开始一楼出库任务，任务号为{dt.Rows[0]["taskno"]}托盘条码：{dt.Rows[0]["traycode"]}");
+                                bool flag = DDJCommand(ref cs, dt);
+
+                                if (flag)
+                                {
+                                    //根据巷道获取出库目标
+                                    AlleyIdRelation.GetCKOneDesSpace(cs.Btid, ref cs);
+
+                                    //出库
+                                    cs.Zyfs = "2";
+
+                                    if (WriteToCrane(cs))
+                                    {
+                                        LogWrite.WriteLog($"给堆垛机{cs.Btid}下发出库任务{dt.Rows[0]["taskno"]}成功，托盘条码：{dt.Rows[0]["traycode"]}，目标地址：{cs.Mbph}排{cs.Mblh}列{cs.Mbch}层");
+                                        NotifyShowEvent?.Invoke("R", $"给堆垛机{cs.Btid}下发出库任务{dt.Rows[0]["taskno"]}成功，托盘条码：{dt.Rows[0]["traycode"]}，目标地址：{cs.Mbph}排{cs.Mblh}列{cs.Mbch}层");
+                                        DataTrans.D_CraneCommandTrans(cs.Btid, dt.Rows[0]["TASKID"].ToString(), "2", "2", "3");
+                                        Thread.Sleep(1000);
+                                    }
+                                    else
+                                    {
+                                        LogWrite.WriteLog($"给堆垛机{cs.Btid}下发出库任务{dt.Rows[0]["taskno"]}失败");
+                                        NotifyShowEvent?.Invoke("R", $"给堆垛机{cs.Btid}下发出库任务{dt.Rows[0]["taskno"]}失败");
+                                    }
+                                }
+                            }
+                        }
                     }
                     #endregion
 
-                    #region 一楼出库
+                    #region 一楼入库
                     else if (runorder == 2)
                     {
 
@@ -364,6 +425,87 @@ namespace ComResolution
 
 
         /// <summary>
+        /// 给堆垛机指令表中插入指令数据
+        /// </summary>
+        /// <param name="cs"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        private bool DDJCommand(ref CraneStr cs, DataTable dt)
+        {
+            bool flag = false;
+
+            //用于存储指令表中的任务
+            int cranetaskno = 0;
+
+            cs.Zxrwh = dt.Rows[0]["taskno"].ToInt();
+            if (dt.Rows[0]["TPLATOON"].ToInt().ToString().Equals("0"))
+            {
+                cs.Mbph = "0";
+            }
+            else
+            {
+                int remainder = Convert.ToInt32(dt.Rows[0]["TPLATOON"]) % 2;
+                if (remainder == 0) 
+                {
+                    cs.Mbph = "2";
+                }
+                else
+                {
+                    cs.Mbph = "1";
+                }
+            }
+            cs.Mblh = dt.Rows[0]["TCOLUMN"].ToString();
+            cs.Mbch = dt.Rows[0]["TFLOOR"].ToString();
+            if (dt.Rows[0]["SPLATOON"].ToInt().ToString().Equals("0")) 
+            {
+                cs.Dqph = "0";
+            }
+            else
+            {
+                int remainder = Convert.ToInt32(dt.Rows[0]["SPLATOON"]) % 2;
+                if (remainder == 0) 
+                {
+                    cs.Dqph = "2";
+                }
+                else
+                {
+                    cs.Dqph = "1";
+                }
+            }
+            cs.Dqlh = dt.Rows[0]["SCOLUMN"].ToString();
+            cs.Dqch = dt.Rows[0]["SFLOOR"].ToString();
+
+            //查询指令表中是否存在指令未执行
+            DataSet dscommand = DataTrans.D_GetCraneCommand(cs.Btid);
+            if (dscommand.Tables[0].Rows.Count > 0) 
+            {
+                cranetaskno = dscommand.Tables[0].Rows[0]["RWH"].ToInt();
+            }
+            if (cranetaskno > 0)
+            {
+                if (cranetaskno == Convert.ToInt32(dt.Rows[0]["TASKNO"]))
+                {
+                    LogWrite.WriteLog($"堆垛机{cs.Btid}对应任务号{cranetaskno}还未给设备下发，无法向堆垛机指令表中再次写入！");
+                    NotifyShowEvent?.Invoke("R", $"堆垛机{cs.Btid}对应任务号{cranetaskno}还未给设备下发，无法向堆垛机指令表中再次写入！");
+                    flag = true;
+                }
+                else
+                {
+                    LogWrite.WriteLog($"堆垛机{cs.Btid}对应任务号{cranetaskno}还未给设备下发,新任务{dt.Rows[0]["TASKNO"]}，无法向堆垛机指令表中再次写入！");
+                    NotifyShowEvent?.Invoke("R", $"堆垛机{cs.Btid}对应任务号{cranetaskno}还未给设备下发，新任务{dt.Rows[0]["TASKNO"]}，无法向堆垛机指令表中再次写入！");
+                    flag = false;
+                    DataTrans.D_CraneCommanddel(cs.Btid);
+                }
+            }
+            else
+            {
+                DataTrans.D_InsertCraneCommand(cs, dt);
+                flag = true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 将任务号等写入堆垛机
         /// </summary>
         /// <param name="ts"></param>
@@ -371,5 +513,9 @@ namespace ComResolution
         {
 
         }
+
+
+
+        
     }
 }
