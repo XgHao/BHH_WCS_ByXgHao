@@ -165,6 +165,11 @@ namespace ComResolution
                 cst.Dqph = buffer[38].ToString();   //获取堆垛机当前排
                 cst.Dqlh = buffer[39].ToString();   //获取堆垛机当前列
                 cst.Dqch = buffer[40].ToString();   //获取堆垛机当前层
+
+                if (cst.Czfs == "4") 
+                {
+                    IssuedCraneTask(cst.Btid, buffer);
+                }
             }
         }
 
@@ -416,7 +421,54 @@ namespace ComResolution
                     #region 一楼入库
                     else if (runorder == 2)
                     {
+                        DataTable dt = new DataTable();
+                        //查询二楼入库口输送机信息，设备类型为207
+                        string dttype = "102";
+                        TransportStr ts = lsTransport.Find(s => s.DTYPE == dttype && s.BTID == cs.Btid && s.DWXH == "1");
+                        if (ts == null) 
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            crl.HsWcsReadSSJ(ref ts);
+                            if (ts.DWXH != "1") 
+                            {
+                                return;
+                            }
+                            //根据输送机任务号获取调度信息
+                            DataSet dstask = DataTrans.D_GetSchByTaskno(ts.ZXRWH);
+                            DataRow[] drs = dstask.Tables[0].Select("TCARGO_SPACE_ID is not null", "");
 
+                            if (drs.Length > 0) 
+                            {
+                                dt = dstask.Tables[0].Clone();
+                                dt.ImportRow(drs[0]);
+                                LogWrite.WriteLog($"开始入库任务，任务号为：{dt.Rows[0]["taskno"]}，托盘条码：{dt.Rows[0]["traycode"]}");
+                                NotifyShowEvent?.Invoke("R", $"开始入库任务，任务号为：{dt.Rows[0]["taskno"]}，托盘条码：{dt.Rows[0]["traycode"]}");
+                                bool flag = DDJCommand(ref cs, dt);
+                                if (flag)
+                                {
+                                    //如果入库，目标地址为巷道
+                                    AlleyIdRelation.GetRKDesSpace(cs.Btid, ref cs);
+                                    cs.Zyfs = "1";
+                                    //如果插入指令表成功，将指令写入到堆垛机中
+                                    if (WriteToCrane(cs)) 
+                                    {
+                                        LogWrite.WriteLog($"给堆垛机{cs.Btid}下发任务{dt.Rows[0]["taskno"]}成功，托盘条码：{dt.Rows[0]["traycode"]}，目标地址{cs.Mbph}排-{cs.Mblh}列-{cs.Mbch}层");
+                                        NotifyShowEvent?.Invoke("R", $"给堆垛机{cs.Btid}下发任务{dt.Rows[0]["taskno"]}成功，托盘条码：{dt.Rows[0]["traycode"]}，目标地址{cs.Mbph}排-{cs.Mblh}列-{cs.Mbch}层");
+                                        DataTrans.D_CraneCommandTrans(cs.Btid, dt.Rows[0]["TASKID"].ToString(), "3", "3", "3");
+                                        Thread.Sleep(1000);
+                                    }
+                                    else
+                                    {
+                                        LogWrite.WriteLog($"给堆垛机{cs.Btid}下发入库任务{dt.Rows[0]["taskno"]}失败");
+                                        NotifyShowEvent?.Invoke("R", $"给堆垛机{cs.Btid}下发入库任务{dt.Rows[0]["taskno"]}失败");
+                                    }
+                                }
+                                return;
+                            }
+                        }
                     }
                     #endregion
                 }
@@ -502,7 +554,7 @@ namespace ComResolution
                 DataTrans.D_InsertCraneCommand(cs, dt);
                 flag = true;
             }
-            return false;
+            return flag;
         }
 
         /// <summary>
@@ -511,7 +563,36 @@ namespace ComResolution
         /// <param name="ts"></param>
         public static bool WriteToCrane(CraneStr ts)
         {
+            try
+            {
+                wbuffer = new byte[20];
+                //作业方式。入库、出库、移库
+                wbuffer[1] = (byte)(Convert.ToInt32(ts.Zyfs) % 256);
+                //任务号
+                wbuffer[2] = (byte)Convert.ToInt32(Convert.ToInt32(ts.Zxrwh) / (256 * 256 * 256));
+                wbuffer[3] = (byte)Convert.ToInt32(Convert.ToInt32(ts.Zxrwh) / (256 * 256));
+                wbuffer[4] = (byte)Convert.ToInt32(Convert.ToInt32(ts.Zxrwh) / 256);
+                wbuffer[5] = (byte)Convert.ToInt32(Convert.ToInt32(ts.Zxrwh) - (wbuffer[0] * 256 * 256 * 256) - (wbuffer[1] * 256 * 256) - (wbuffer[2] * 256));
 
+                //目标排
+                wbuffer[6] = (byte)(Convert.ToInt32(ts.Mbph) % 256);
+                wbuffer[7] = (byte)(Convert.ToInt32(ts.Mblh) % 256);
+                wbuffer[8] = (byte)(Convert.ToInt32(ts.Mbch) % 256);
+
+                //源地址排
+                wbuffer[12] = (byte)(Convert.ToInt32(ts.Dqph) % 256);
+                //源地址列
+                wbuffer[13] = (byte)(Convert.ToInt32(ts.Dqlh) % 256);
+                //源地址层
+                wbuffer[14] = (byte)(Convert.ToInt32(ts.Dqch) % 256);
+                bool flag = cPLCList[ts.Btid].HsWrite($"DB{wdbnumber}.0", buffer);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogWrite.WriteLog($"堆垛机写入异常，异常信息为：{ex.Message}");
+                return false;
+            }
         }
 
 

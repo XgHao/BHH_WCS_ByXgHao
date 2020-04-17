@@ -51,6 +51,7 @@
     <Compile Include="CRLBase.cs" />
     <Compile Include="CRLCRANEConnect.cs" />
     <Compile Include="CRLSocket.cs" />
+    <Compile Include="CRLSocketConnect.cs" />
     <Compile Include="CRLTRANSControl.cs" />
     <Compile Include="ExtendMethods.cs" />
     <Compile Include="ProductCountInfo.cs" />
