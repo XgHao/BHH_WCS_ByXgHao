@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AlleyIdRelation.cs" />
     <Compile Include="CraneStr.cs" />
+    <Compile Include="RECDETAIL.cs" />
     <Compile Include="SSJAlarm.cs" />
     <Compile Include="TransportStr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
