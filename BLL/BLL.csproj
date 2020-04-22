@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LOG">
+      <HintPath>..\ComResolution\bin\Debug\LOG.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,8 +45,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLLBase.cs" />
+    <Compile Include="BLLCrane.cs" />
     <Compile Include="BLLTransport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseData\BaseData.csproj">
+      <Project>{21133933-11FB-480F-BB39-219EBF1E85B5}</Project>
+      <Name>BaseData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComResolution\ComResolution.csproj">
+      <Project>{179147AC-9B10-4122-989B-C4353C9F3208}</Project>
+      <Name>ComResolution</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

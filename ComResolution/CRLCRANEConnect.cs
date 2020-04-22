@@ -73,6 +73,12 @@ namespace ComResolution
             }
         }
 
+
+        public void Run()
+        {
+            coc.connectstatus = CarneConnect() ? 1 : 0;
+        }
+
         /// <summary>
         /// 连接堆垛机
         /// </summary>
@@ -475,6 +481,44 @@ namespace ComResolution
             }
         }
 
+        /// <summary>
+        /// 取货完成给堆垛机指令表下发指令数据
+        /// </summary>
+        /// <param name="cs"></param>
+        /// <returns></returns>
+        private bool QHWCDDJCommand(ref CraneStr cs)
+        {
+            bool flag = false;
+            string taskno = cs.Zxrwh.ToString();
+            DataSet ds = DataTrans.D_GetSchByTaskno(taskno);
+            if (ds != null && ds.Tables[0].Rows.Count > 0) 
+            {
+                DataTable dt = ds.Tables[0];
+                cs.Dqph = dt.Rows[0]["SPLATOON"].ToString();
+                cs.Dqlh = dt.Rows[0]["SCOLUMN"].ToString();
+                cs.Dqch = dt.Rows[0]["SFLOOR"].ToString();
+                cs.Mbph = dt.Rows[0]["TPLATOON"].ToString();
+                cs.Mbch = dt.Rows[0]["TFLOOR"].ToString();
+                cs.Mblh = dt.Rows[0]["TCOLUMN"].ToString();
+                cs.Var1 = dt.Rows[0]["TASKID"].ToString();
+                if (dt.Rows[0]["TASKTYPE"].ToString() == "2" && dt.Rows[0]["FLOOR"].ToString() == "1")
+                {
+                    AlleyIdRelation.GetCKOneDesSpace(cs.Btid, ref cs);
+                }
+                else if (dt.Rows[0]["TASKTYPE"].ToString() == "2" && dt.Rows[0]["FLOOR"].ToString() == "2") 
+                {
+                    AlleyIdRelation.GetCKTwoDesSpace(cs.Btid, ref cs);
+                }
+                flag = true;
+            }
+            else
+            {
+                LogWrite.WriteLog($"堆垛机{cs.Btid}取货完成后，所提取的任务号为找到任务");
+                NotifyShowEvent?.Invoke("R", $"堆垛机{cs.Btid}取货完成后，所提取的任务号为找到任务");
+                flag = false;
+            }
+            return flag;
+        }
 
         /// <summary>
         /// 给堆垛机指令表中插入指令数据
