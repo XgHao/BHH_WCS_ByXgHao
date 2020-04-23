@@ -485,6 +485,63 @@ namespace ComResolution
             return flag;
         }
 
+        public bool HsWriteToSSJ(TransportStr ts)
+        {
+            try
+            {
+                int start = int.Parse(ts.VAR3);
+
+                byte[] buffer = new byte[18];
+                int[] info = new int[18];
+
+                #region 将任务号转为16进制，然后存入2字节
+
+                #endregion
+
+                byte[] taskno = new byte[2];
+                taskno[0] = (byte)Convert.ToInt32(Convert.ToInt32(ts.ZXRWH) / 256);
+                taskno[1] = (byte)Convert.ToInt32(Convert.ToInt32(ts.ZXRWH) % 256);
+                byte[] barcode = new byte[4];
+                ts.TRAYCODE = string.IsNullOrEmpty(ts.TRAYCODE) ? "0" : ts.TRAYCODE;
+                barcode[0] = (byte)Convert.ToInt32(Convert.ToInt32(ts.TRAYCODE) / (256 * 256 * 256));
+                barcode[1] = (byte)Convert.ToInt32(Convert.ToInt32(ts.TRAYCODE) / (256 * 256));
+                barcode[2] = (byte)Convert.ToInt32(Convert.ToInt32(ts.TRAYCODE) / 256);
+                barcode[3] = (byte)Convert.ToInt32(Convert.ToInt32(ts.TRAYCODE) - barcode[0] * 256 * 256 * 256 - barcode[1] * 256 * 256 - barcode[2] * 256);
+
+                for (int i = 0; i < 18; i++)
+                {
+                    info[i] = 0;
+                }
+                for (int i = 0; i < taskno.Length; i++)
+                {
+                    info[i] = int.Parse(taskno[i].ToString());
+                }
+                for (int i = 0; i < barcode.Length; i++)
+                {
+                    info[i + 2] = int.Parse(barcode[i].ToString());
+                }
+                for (int i = 0; i < info.Length; i++)
+                {
+                    buffer[i] = (byte)info[i];
+                }
+
+                bool flag = false;
+                if (HsPLCList.ContainsKey(ts.VAR1))
+                {
+                    flag = HsPLCList[ts.VAR1].HsWrite($"DB{dbnumber}.{start}", buffer);
+                }
+                else
+                {
+                    HsPLCList.Add(ts.VAR1, new HsControlServer(ConfigurationManager.AppSettings[ts.VAR1]));
+                }
+                return flag;
+            }
+            catch (Exception ex)
+            {
+                logWrite.WriteLog($"输送机{ts.SSJID}条码{ts.TRAYCODE}异常，异常信息为{ex.Message}");
+                return false;
+            }
+        }
 
         /// <summary>
         /// 读取输送机信息

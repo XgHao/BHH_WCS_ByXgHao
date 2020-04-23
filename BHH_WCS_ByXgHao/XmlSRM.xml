@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SRM>
+  <srminfo>
+    <name>1</name>
+    <IP>192.168.8.100</IP>
+    <port>102</port>
+  </srminfo>
+  <srminfo>
+    <name>2</name>
+    <IP>192.168.8.110</IP>
+    <port>102</port>
+  </srminfo>
+  <srminfo>
+    <name>3</name>
+    <IP>192.168.8.120</IP>
+    <port>102</port>
+  </srminfo>
+  <srminfo>
+    <name>4</name>
+    <IP>192.168.8.130</IP>
+    <port></port>
+  </srminfo>
+  <srminfo>
+    <name>5</name>
+    <IP>192.168.8.140</IP>
+    <port></port>
+  </srminfo>
+  <srminfo>
+    <name>6</name>
+    <IP>192.168.8.150</IP>
+    <port></port>
+  </srminfo>
+  <srminfo>
+    <name>7</name>
+    <IP>192.168.8.160</IP>
+    <port></port>
+  </srminfo>
+</SRM>

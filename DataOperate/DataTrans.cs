@@ -1,5 +1,4 @@
 ﻿using BaseData;
-using ComResolution;
 using LOG;
 using Model;
 using System;

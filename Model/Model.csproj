@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContinueToAgvInfo.cs" />
+    <Compile Include="positioncodepath.cs" />
     <Compile Include="ReciveAgeCallBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SendToAgvResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

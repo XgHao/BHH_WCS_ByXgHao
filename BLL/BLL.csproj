@@ -34,8 +34,14 @@
     <Reference Include="LOG">
       <HintPath>..\ComResolution\bin\Debug\LOG.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,9 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgvCallBackService.cs" />
+    <Compile Include="BLLAgv.cs" />
+    <Compile Include="BLLAgvBase.cs" />
     <Compile Include="BLLBase.cs" />
     <Compile Include="BLLCrane.cs" />
     <Compile Include="BLLTransport.cs" />
+    <Compile Include="IAgvResultCallBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +68,21 @@
       <Project>{179147AC-9B10-4122-989B-C4353C9F3208}</Project>
       <Name>ComResolution</Name>
     </ProjectReference>
+    <ProjectReference Include="..\COMRW\COMRW.csproj">
+      <Project>{CDCAD39C-0611-48A6-9E6B-E838D977C958}</Project>
+      <Name>COMRW</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataOperate\DataOperate.csproj">
+      <Project>{2C12D482-752A-4ED4-ABE0-A3D50A3A18BE}</Project>
+      <Name>DataOperate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{1FC549F0-6C96-437C-BFCC-9A4EA7D686DA}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
