@@ -66,6 +66,12 @@
     <Compile Include="FrmAgv.Designer.cs">
       <DependentUpon>FrmAgv.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmAutoTransport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAutoTransport.Designer.cs">
+      <DependentUpon>FrmAutoTransport.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmAgv.resx">
       <DependentUpon>FrmAgv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAutoTransport.resx">
+      <DependentUpon>FrmAutoTransport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>

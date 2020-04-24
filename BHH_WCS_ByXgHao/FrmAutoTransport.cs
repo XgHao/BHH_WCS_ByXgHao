@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ComResolution;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,50 +8,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BLL;
 
 namespace BHH_WCS_ByXgHao
 {
-    public partial class FrmAgv : Form
+    public partial class FrmAutoTransport : Form
     {
-        public FrmAgv()
+        readonly CRLSocket bs = new CRLSocket();
+        public FrmAutoTransport()
         {
             InitializeComponent();
         }
 
-        private void FrmAgv_Load(object sender, EventArgs e)
+        private void FrmAutoTransport_Load(object sender, EventArgs e)
         {
-            BLLAgvBase agvBase = new BLLAgvBase();
-            BLLAgvBase.bll.NotifyEvent += (type, msg) =>
+            bs.NotifyShowEvent += (type, msg) =>
             {
-                if (type == "R") 
+                if (type == "C") 
                 {
-                    ShowText(rb_RcvAgvMsg, msg);
+                    ShowText(rtb_Con, msg);
                 }
                 else
                 {
-                    ShowText(rb_SendAgvMsg, msg);
+                    ShowText(rtb_Task, msg);
                 }
             };
-            BLLAgvBase.bll.Run();
         }
 
-        private void ShowText(RichTextBox rb, string msg)
+
+        private void ShowText(RichTextBox rb,string msg)
         {
             if (rb.InvokeRequired)
             {
-                rb.Invoke(new Action(() =>
-                {
-                    ShowText(rb, msg);
-                }));
+                rb.Invoke(new Action(() => ShowText(rb, msg)));
                 return;
             }
 
-            if (string.IsNullOrEmpty(msg)) 
-            {
-                return;
-            }
-            if (msg.Contains("失败") || msg.Contains("故障") || msg.Contains("异常")) 
+            if (msg.Contains("失败") || msg.Contains("故障"))
             {
                 rb.SelectionColor = Color.Red;
             }

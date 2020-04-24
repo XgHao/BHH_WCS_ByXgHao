@@ -51,6 +51,7 @@
     <Compile Include="Leddll.cs" />
     <Compile Include="RWLOPCServerl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeOutSocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bap.LibNodave\Bap.LibNodave.csproj">

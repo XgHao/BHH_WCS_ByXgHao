@@ -33,9 +33,35 @@ namespace BLL
                 }
                 else
                 {
-                    string msgInfo = bll
+                    string msgInfo = bll.HandleCallBackData(agvCallBack);
+                    if (msgInfo == "OK") 
+                    {
+                        int n = DataTrans.D_InsertCallBack(agvCallBack, "2", out msg);
+                        if (n > 0)
+                        {
+                            result.Code = "0";
+                            result.Message = "成功";
+                            result.Data = string.Empty;
+                            result.ReqCode = agvCallBack.ReqCode;
+                        }
+                    }
+                    else
+                    {
+                        result.Code = "1";
+                        result.Message = "失败";
+                        result.Data = string.Empty;
+                        result.ReqCode = agvCallBack.ReqCode;
+                    }
                 }
             }
+            else
+            {
+                result.Code = "1";
+                result.Message = "数据处理异常";
+                result.Data = string.Empty;
+                result.ReqCode = agvCallBack.ReqCode;
+            }
+            return result;
         }
     }
 }
