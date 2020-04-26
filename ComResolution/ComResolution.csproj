@@ -52,14 +52,21 @@
     <Compile Include="CRLCRANEConnect.cs" />
     <Compile Include="CRLCRANEControl.cs" />
     <Compile Include="CRLRGVConnect.cs" />
+    <Compile Include="CRLRGVControl.cs" />
     <Compile Include="CRLSocket.cs" />
     <Compile Include="CRLSocketConnect.cs" />
+    <Compile Include="CRLSocketControl.cs" />
+    <Compile Include="CRLSRMControl.cs" />
     <Compile Include="CRLTRANSControl.cs" />
     <Compile Include="ExtendMethods.cs" />
     <Compile Include="ProductCountInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bap.LibNodave\Bap.LibNodave.csproj">
+      <Project>{6656DC1C-FFB6-4027-8BE0-14F9A9E04303}</Project>
+      <Name>Bap.LibNodave</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BaseData\BaseData.csproj">
       <Project>{21133933-11FB-480F-BB39-219EBF1E85B5}</Project>
       <Name>BaseData</Name>

@@ -57,6 +57,9 @@
     <Compile Include="BLLAgvBase.cs" />
     <Compile Include="BLLBase.cs" />
     <Compile Include="BLLCrane.cs" />
+    <Compile Include="BLLSocket.cs" />
+    <Compile Include="BLLSRMEQUIP.cs" />
+    <Compile Include="BLLSRMERegist.cs" />
     <Compile Include="BLLTransport.cs" />
     <Compile Include="IAgvResultCallBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

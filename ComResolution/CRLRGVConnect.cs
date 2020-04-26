@@ -100,6 +100,47 @@ namespace ComResolution
                 }
             }
         }
+
+        /// <summary>
+        /// 发送报文信息
+        /// </summary>
+        /// <param name="btyData"></param>
+        /// <returns></returns>
+        private bool RGVSend(byte[] btyData)
+        {
+            try
+            {
+                lock (qLock)
+                {
+                    if (RgvCliSocket != null) 
+                    {
+                        if (RgvCliSocket.Client.Connected)
+                        {
+                            RgvCliSocket.Client.Send(btyData);
+                            return true;
+                        }
+                        else
+                        {
+                            NotifyEvent?.Invoke("Break", "RGV SendData Fail!");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (SocketException ex)
+            {
+                if (RgvCliSocket != null && !RgvCliSocket.Connected)
+                {
+                    Close(RgvCliSocket, rg_Brun);
+                }
+                NotifyEvent?.Invoke("Break", $"给RGV发送异常，关闭连接，异常状态为{ex.Message}");
+                return false;
+            }
+        }
         #endregion
 
         #region 关闭通信与获取消息
